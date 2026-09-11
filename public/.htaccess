@@ -1,0 +1,21 @@
+DirectoryIndex index.php
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Servir les fichiers statiques directement
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Tout le reste → index.php (Symfony)
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# Bloquer l'accès aux fichiers sensibles
+<FilesMatch "\.(env|yaml|yml|json|lock|log|sh|pem|sql)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
