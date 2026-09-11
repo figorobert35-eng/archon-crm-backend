@@ -2,14 +2,10 @@
 
 use App\Kernel;
 
-// Structure sur InfinityFree (tout dans htdocs/) :
-//   htdocs/index.php       <- ce fichier
-//   htdocs/vendor/         <- autoloader
-//   htdocs/src/            <- code PHP
-//   htdocs/config/         <- configuration
-//   htdocs/.env            <- variables d'environnement
-
-require_once __DIR__ . '/vendor/autoload_runtime.php';
+// Sur Railway : /app/ est la racine du projet
+// vendor/ est dans /app/vendor/
+// public/ est dans /app/public/ (ce fichier est ici)
+require_once dirname(__DIR__) . '/vendor/autoload_runtime.php';
 
 return static function (array $context) {
     return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
