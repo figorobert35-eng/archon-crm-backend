@@ -1,14 +1,30 @@
 [phases.setup]
-nixPkgs = ["php82", "php82Extensions.pdo", "php82Extensions.pdo_mysql", "php82Extensions.mbstring", "php82Extensions.openssl", "php82Extensions.intl", "php82Extensions.sodium", "composer"]
+nixPkgs = [
+  "php83",
+  "php83Extensions.pdo",
+  "php83Extensions.pdo_mysql",
+  "php83Extensions.mbstring",
+  "php83Extensions.openssl",
+  "php83Extensions.tokenizer",
+  "php83Extensions.xml",
+  "php83Extensions.ctype",
+  "php83Extensions.intl",
+  "php83Extensions.sodium",
+  "php83Extensions.curl",
+  "php83Extensions.zip",
+  "composer"
+]
 
 [phases.install]
-cmds = ["composer install --no-dev --optimize-autoloader --no-interaction"]
+cmds = [
+  "composer install --no-dev --optimize-autoloader --no-interaction --no-scripts"
+]
 
 [phases.build]
 cmds = [
-  "php bin/console cache:clear --env=prod --no-debug",
+  "php bin/console cache:clear --env=prod --no-debug --no-warmup",
   "php bin/console cache:warmup --env=prod --no-debug"
 ]
 
 [start]
-cmd = "php -S 0.0.0.0:$PORT -t public/"
+cmd = "php bin/console doctrine:migrations:migrate --no-interaction --env=prod && php -S 0.0.0.0:$PORT -t public/"
